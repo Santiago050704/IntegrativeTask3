@@ -179,8 +179,16 @@ public class Main{
   }
   
   public void uiCreateAPlaylist() {
+    String name;
+    String consumerId;
+
     System.out.println("<<< Create a playlist >>>");
-    
+    System.out.println("Enter the name of the playlist.");
+    name = reader.next();
+    System.out.println("Enter the ID of the consumer user who will have the playlist.");
+    consumerId = reader.next();
+
+    System.out.println(controllerNTAudios.createAPlaylist(name, consumerId));
   }
 
   public int getOptionShowMenu() {
@@ -222,6 +230,7 @@ public class Main{
         
       case 4:
         System.out.println("<<< Create a playlist >>>");
+        uiCreateAPlaylist();
         break;
 
       case 5:

@@ -5,18 +5,22 @@ import java.util.Random;
 
 public class Playlist {
   private String name;
-  private int code;
+  private String code;
   private Random random;
   private int[][] codeMatrix;
 
   private ArrayList<Audio> audioList;
 
-  public Playlist(String name, int code) {
+  public Playlist(String name) {
     this.name = name;
-    this.code = code;
+    code = null;
     audioList = new ArrayList<Audio>();
     codeMatrix = new int[6][6];
     fillMatrix(codeMatrix);
+  }
+
+  public String getName() {
+    return name;
   }
 
   public void fillMatrix(int[][] codeMatrix) {
@@ -36,4 +40,5 @@ public class Playlist {
       System.out.println("");
     }
   }
+
 }

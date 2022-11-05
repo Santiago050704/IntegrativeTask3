@@ -125,8 +125,43 @@ public class NTAudios {
     return msj;
   }
   
-  public String createAPlaylist(String name, ) {
-    
+  public String createAPlaylist(String name, String consumerId) {
+    String msj = "";
+    boolean wasAdded = false;
+    int posConsumer = searchUserById(consumerId);
+    int posPlaylist = searchPlaylistByName(consumerId, name);
+    if (posConsumer != -1) {
+      if (users.get(posConsumer) instanceof StandardUser) {
+        if (posPlaylist == -1) {
+          Playlist playlist = new Playlist(name);
+          for (int i = 0; i < ((StandardUser) (users.get(posConsumer))).getPlaylists().length && !wasAdded; i++) {
+            if (((StandardUser) (users.get(posConsumer))).getPlaylists()[i] == null) {
+              ((StandardUser) (users.get(posConsumer))).getPlaylists()[i] = playlist;
+              wasAdded = true;
+              msj = "The playlist was successfully created in the standard user.";
+            } else {
+              msj = "This standard user has already reached the limit number of playlists.";
+            }
+          }
+        } else {
+          msj = "The standard user already has a playlist with that name.";
+        }
+      } else if (users.get(posConsumer) instanceof PremiumUser) {
+        if (posPlaylist == -1) {
+          Playlist playlist = new Playlist(name);
+          ((PremiumUser) (users.get(posConsumer))).getPlaylists().add(playlist);
+          wasAdded = true;
+          msj = "The playlist was successfully created in the premium user.";
+        } else {
+          msj = "The premium user already has a playlist with that name.";
+        }
+      } else {
+        msj = "The user ID entered does not belong to a consumer user.";
+      }
+    } else {
+      msj = "The user entered does not exist within the platform.";
+    }
+    return msj;
   }
   
   public boolean confirmMusicalGenre(String musicalGenre) {
@@ -186,9 +221,34 @@ public class NTAudios {
     if (posUser != -1) {
       for (int i = 0; i < ((ContentCreatorUser) (users.get(posUser))).getPodcasts().size() && !wasFound; i++) {
         if (users.get(posUser) != null
-            && ((ContentCreatorUser) (users.get(posUser))).getPodcasts().get(i).getName().equalsIgnoreCase(podcastName)) {
+            && ((ContentCreatorUser) (users.get(posUser))).getPodcasts().get(i).getName()
+                .equalsIgnoreCase(podcastName)) {
           pos = i;
           wasFound = true;
+        }
+      }
+    }
+    return pos;
+  }
+  
+  public int searchPlaylistByName(String consumerId, String name) {
+    int pos = -1;
+    boolean wasFound = false;
+    int posConsumer = searchUserById(consumerId);
+    if (posConsumer != -1) {
+      if (users.get(posConsumer) instanceof StandardUser) {
+        for (int i = 0; i < ((StandardUser) (users.get(posConsumer))).getPlaylists().length && !wasFound; i++) {
+          if (((StandardUser)(users.get(posConsumer))).getPlaylists()[i] != null && ((StandardUser) (users.get(posConsumer))).getPlaylists()[i].getName().        equalsIgnoreCase(name)) {
+            pos = i;
+            wasFound = true;
+          }
+        }
+      } else if (users.get(posConsumer) instanceof PremiumUser) {
+        for (int i = 0; i < ((PremiumUser) (users.get(posConsumer))).getPlaylists().size() && !wasFound; i++) {
+          if (((PremiumUser)(users.get(posConsumer))).getPlaylists().get(i) != null  && ((PremiumUser) (users.get(posConsumer))).getPlaylists().get(i).getName().equalsIgnoreCase(name)) {
+            pos = i;
+            wasFound = true;
+          }
         }
       }
     }
