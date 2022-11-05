@@ -6,11 +6,11 @@ public abstract class Audio {
   private double duration;
   private int numberOfReproductions;
 
-  public Audio(String name, String imageURL, double duration, int numberOfReproductions) {
+  public Audio(String name, String imageURL, double duration) {
     this.name = name;
     this.imageURL = imageURL;
     this.duration = duration;
-    this.numberOfReproductions = numberOfReproductions;
+    this.numberOfReproductions = 0;
   }
 
   public String getName() {

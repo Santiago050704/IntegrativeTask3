@@ -6,12 +6,12 @@ public class Song extends Audio {
   private double saleValue;
   private int numberOfSales;
 
-  public Song(String name, String imageURL, double duration, int numberOfReproductions, String album, MusicalGenre musicalGenre, double saleValue, int numberOfSales) {
-    super(name, imageURL, duration, numberOfReproductions);
+  public Song(String name, String imageURL, double duration, String album, MusicalGenre musicalGenre, double saleValue) {
+    super(name, imageURL, duration);
     this.album = album;
     this.musicalGenre = musicalGenre;
     this.saleValue = saleValue;
-    this.numberOfSales = numberOfSales;
+    this.numberOfSales = 0;
   }
   
   public String getAlbum() {

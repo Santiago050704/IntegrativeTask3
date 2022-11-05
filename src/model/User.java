@@ -1,16 +1,17 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class User {
+
   private String nickname;
   private String id;
-  private Date date;
+  private LocalDate date;
 
-  public User(String nickname, String id, Date date) {
+  public User(String nickname, String id) {
     this.nickname = nickname;
     this.id = id;
-    this.date = date;
+    this.date = LocalDate.now();
   }
 
   public String getNickname() {
@@ -21,7 +22,7 @@ public abstract class User {
     return id;
   }
 
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
 }

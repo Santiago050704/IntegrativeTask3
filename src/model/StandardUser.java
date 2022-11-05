@@ -1,9 +1,16 @@
 package model;
 
-import java.util.Date;
-
 public class StandardUser extends ConsumerUser {
-  public StandardUser(String nickname, String id, Date date) {
-    super(nickname, id, date);
+
+  private int maxNumberOfSongsToBuy;
+
+  public StandardUser(String nickname, String id) {
+    super(nickname, id);
+    maxNumberOfSongsToBuy = 100;
   }
+
+  public int getMaxNumberOfSongsToBuy() {
+    return maxNumberOfSongsToBuy;
+  }
+
 }
