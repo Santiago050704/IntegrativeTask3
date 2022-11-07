@@ -5,10 +5,16 @@ import java.util.Scanner;
 import model.MusicalGenre;
 import model.NTAudios;
 
+/**
+ * This class allows executing the program and contains all the view methods with which the user will interact.
+ */
 public class Main{
   private Scanner reader;
   private NTAudios controllerNTAudios;
 
+  /**
+   * Main: This constructor method initializes the objects of the Scanner and NTAudios classes.
+   */
   public Main(){
     reader = new Scanner(System.in);
     controllerNTAudios = new NTAudios();
@@ -29,6 +35,9 @@ public class Main{
     main.reader.close();
   }
   
+  /**
+   * uiRegisterProducerUsers: This method asks for the data needed to create a producer user: Artist or Content creator.
+   */
   public void uiRegisterProducerUsers() {
     String nickname;
     String id;
@@ -76,6 +85,9 @@ public class Main{
     }
   }
   
+  /**
+   * uiRegisterConsumerUsers: This method asks for the data needed to create a consumer user: Standard or Premium.
+   */
   public void uiRegisterConsumerUsers() {
     String nickname;
     String id;
@@ -113,6 +125,9 @@ public class Main{
     }
   }
 
+  /**
+   * uiRegisterAudios: This method asks for the data needed to create an audio: Song or Podcast.
+   */
   public void uiRegisterAudios() {
     String name;
     String imageURL;
@@ -178,6 +193,10 @@ public class Main{
 
   }
   
+
+  /**
+   * uiCreateAPlaylist: This method asks for the data needed to create a playlist.
+   */
   public void uiCreateAPlaylist() {
     String name;
     String consumerId;
@@ -191,6 +210,62 @@ public class Main{
     System.out.println(controllerNTAudios.createAPlaylist(name, consumerId));
   }
 
+  /**
+  * uiEditPlaylist: This method asks for the data needed to edit a playlist: add song or podcast to the playlist.
+  */
+  public void uiEditPlaylist() {
+    String audioName;
+    String producerId;
+    String playlistName;
+    String consumerId;
+    int choice = 0;
+
+    System.out.println("<<< Edit a playlist >>>");
+    System.out.println("What type of audio do you want to add to the playlist?");
+    System.out.println(
+      "(1) Song. \n" + 
+      "(2) Podcast."
+    );
+    choice = reader.nextInt();
+    switch (choice) {
+      case 1:
+        System.out.println("<<< Add a song to a playlist >>>");
+        System.out.println("Enter the name of the song you want to add to the playlist.");
+        audioName = reader.next();
+        System.out.println("Enter the ID of the artist to which the song you want to add belongs.");
+        producerId = reader.next();
+        System.out.println("Enter the name of the playlist you want to edit.");
+        playlistName = reader.next();
+        System.out.println("Enter the ID of the consumer user to which the playlist belongs.");
+        consumerId = reader.next();
+
+        System.out.println(controllerNTAudios.editPlaylist(audioName, producerId, playlistName, consumerId, choice));
+        break;
+
+      case 2:
+        System.out.println("<<< Add a podcast to a playlist >>>");
+        System.out.println("Enter the name of the podcast you want to add to the playlist.");
+        audioName = reader.next();
+        System.out.println("Enter the ID of the content creator to which the podcast you want to add belongs.");
+        producerId = reader.next();
+        System.out.println("Enter the name of the playlist you want to edit.");
+        playlistName = reader.next();
+        System.out.println("Enter the ID of the consumer user to which the playlist belongs.");
+        consumerId = reader.next();
+
+        System.out.println(controllerNTAudios.editPlaylist(audioName, producerId, playlistName, consumerId, choice));
+        break;
+
+      default:
+      System.out.println("Invalid option.");
+        break;
+    }
+  }
+
+  /**
+  * getOptionShowMenu: This method displays and allows to choose the option that the platform will execute.
+  * @return option: int: Integer representing the option chosen by the user.
+  */
   public int getOptionShowMenu() {
     int option = 0;
     System.out.println("<<<<< Welcome to NTAudios >>>>>");
@@ -200,12 +275,15 @@ public class Main{
     "(2) Register consumer users: Standard and Premium. \n" +
     "(3) Register audios: songs and podcasts. \n" +
     "(4) Create a playlist. \n" +
-    "(5) Edit a playlist. \n" +
-    "(6) Share a playlist.");
+    "(5) Edit a playlist.");
     option = reader.nextInt();
     return option;
   }
 
+  /**
+  * executeOption: This method executes the option chosen by the user.
+  * @param option: int: Integer representing the option chosen by the user.
+  */
   public void executeOption(int option){
 
     switch (option) {
@@ -235,11 +313,8 @@ public class Main{
 
       case 5:
         System.out.println("<<< Edit a playlist >>>");
+        uiEditPlaylist();
 				break; 
-
-      case 6:
-        System.out.println("<<< Share a playlist >>>");
-        break;
 
 			default: 
 				System.out.println("Invalid Option.");
