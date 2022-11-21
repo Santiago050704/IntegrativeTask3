@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * This abstract class contains the common attributes and methods of the consumer users in the platform.
  */
 public abstract class ConsumerUser extends User {
-  
+  private ArrayList<Playlist> playlists;
   private double accumulatedPlayTimeOfSongs;
   private double accumulatedPlayTimeOfPodcasts;
   private MusicalGenre mostListenedGenre;
@@ -21,7 +21,12 @@ public abstract class ConsumerUser extends User {
    */
   public ConsumerUser(String nickname, String id) {
     super(nickname, id);
+    playlists = new ArrayList<Playlist>();
     accumulatedPlayTimeOfSongs = 0;
     accumulatedPlayTimeOfPodcasts = 0;
+  }
+
+  public ArrayList<Playlist> getPlaylists() {
+    return playlists;
   }
 }

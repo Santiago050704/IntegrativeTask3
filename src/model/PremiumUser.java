@@ -1,18 +1,14 @@
 package model;
 
-import java.util.ArrayList;
-
-public class PremiumUser extends ConsumerUser {
-
-  private ArrayList<Playlist> playlists;
+public class PremiumUser extends ConsumerUser /*implements AudioPlayback*/{
 
   public PremiumUser(String nickname, String id) {
     super(nickname, id);
-    playlists = new ArrayList<Playlist>();
   }
 
-  public ArrayList<Playlist> getPlaylists() {
-    return playlists;
-  }
-
+  /*public String playbackAudio(Audio audio) {
+    String msj = "";
+    msj = "The audio " + audio.getName() + " is playing...";
+    return msj;
+  }*/
 }

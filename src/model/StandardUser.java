@@ -3,12 +3,9 @@ package model;
 /**
  * This class contains the attributes and methods of the standard users in the platform.
  */
-public class StandardUser extends ConsumerUser {
-
-  public static final int MAX_NUMBER_OF_PLAYLISTS = 20;
-
-  private Playlist[] playlists;
+public class StandardUser extends ConsumerUser /*implements AudioPlayback*/{
   private int maxNumberOfSongsToBuy;
+  private int reproductionNumber;
 
   /**
    * StandardUser: Constructor method that allows to initialize the attributes of standard user type objects.
@@ -17,7 +14,6 @@ public class StandardUser extends ConsumerUser {
    */
   public StandardUser(String nickname, String id) {
     super(nickname, id);
-    playlists = new Playlist[MAX_NUMBER_OF_PLAYLISTS];
     maxNumberOfSongsToBuy = 100;
   }
 
@@ -29,12 +25,24 @@ public class StandardUser extends ConsumerUser {
     return maxNumberOfSongsToBuy;
   }
 
-  /**
-   * getPlaylists: This method returns the array of playlists that the standard user has.
-   * @return playlists: Playlist[]: Array of playlists that the standard user has.
-   */
-  public Playlist[] getPlaylists() {
-    return playlists;
+  /*public String playbackAudio(Audio audio) {
+    String msj = "";
+    if (audio instanceof Song) {
+      reproductionNumber++;
+    } else {
+      if (reproductionNumber >= 2) {
+        reproductionNumber = 0;
+      }
+    }
+    msj = "The audio " + audio.getName() + " is playing...";
+    return msj;
+  }*/
+
+  public int getReproductionNumber() {
+    return reproductionNumber;
   }
 
+  public void setReproductionNumber() {
+    reproductionNumber++;
+  }
 }

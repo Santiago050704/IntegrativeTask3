@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.sampled.SourceDataLine;
+
 /**
  * This class contains all the attributes and methods of a playlist.
  */
@@ -20,7 +22,7 @@ public class Playlist {
    */
   public Playlist(String name) {
     this.name = name;
-    code = null;
+    code = "";
     audioList = new ArrayList<Audio>();
     codeMatrix = new int[6][6];
     fillMatrix(codeMatrix);
@@ -58,6 +60,10 @@ public class Playlist {
     code += Integer.toString(num);
   }
 
+  public void resetPlaylistCode() {
+    code = "";
+  }
+
   /**
    * getCode: Method to obtain the playlist code.
    * @return code: String: Auto-generated matrix code, which is generated depending on the contents of the matrix.
@@ -88,14 +94,16 @@ public class Playlist {
     String msj = "";
     for (int i = 0; i < codeMatrix.length; i++) {
       for (int j = 0; j < codeMatrix.length; j++) {
+        msj += Integer.toString(codeMatrix[i][j]) + "  ";
+        if (j == 5) {
+          msj += "\n";
+        }
         //System.out.print(codeMatrix[i][j]);
-        msj += Integer.toString(codeMatrix[i][j]);
-
+        
       }
       //System.out.println("");
-      msj = "";
+      
     }
     return msj;
   }
-
 }

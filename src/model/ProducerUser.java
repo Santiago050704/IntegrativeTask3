@@ -16,6 +16,14 @@ public abstract class ProducerUser extends User {
     totalTimePlayedByConsumers = 0;
   }
 
+  public int getAccumulatedNumberOfReproductions() {
+    return accumulatedNumberOfReproductions;
+  }
+
+  public void setAccumulatedNumberOfReproductions() {
+    this.accumulatedNumberOfReproductions++;
+  }
+
   public String getName() {
     return name;
   }

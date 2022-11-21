@@ -53,4 +53,8 @@ public abstract class Audio {
   public int getNumberOfReproductions() {
     return numberOfReproductions;
   }
+
+  public void setNumberOfReproductions() {
+    this.numberOfReproductions++;
+  }
 }

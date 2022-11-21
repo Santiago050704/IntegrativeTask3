@@ -2,6 +2,8 @@ package ui;
 
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.SynthListUI;
+
 import model.MusicalGenre;
 import model.NTAudios;
 
@@ -23,6 +25,18 @@ public class Main{
   public static void main(String[] args) {
 
     Main main = new Main();
+    /*main.controllerNTAudios.registerProducerUser("hj", "p", "gf", "jkjk", 1);
+    main.controllerNTAudios.registerProducerUser("hj", "u", "gf", "jkjk", 2);
+    main.controllerNTAudios.registerConsumerUser("jkjk", "l", 1);
+    main.controllerNTAudios.registerConsumerUser("jkjk", "m", 1);
+    main.controllerNTAudios.registerConsumerUser("jkjk", "n", 1);
+    main.controllerNTAudios.registerSong("hjhj", "hhh", 7, "jhjhj", "pop", 89, "p");
+    main.controllerNTAudios.registerSong("you", "hhh", 7, "jhjhj", "pop", 89, "p");
+    main.controllerNTAudios.registerPodcast("re", "jhhjhjhj", 9, "jhjhj", "policy", "u");
+    main.controllerNTAudios.createAPlaylist("i", "l");
+    main.controllerNTAudios.createAPlaylist("q", "l");*/
+    
+
     int option = 0;
 
     do {
@@ -201,7 +215,6 @@ public class Main{
     String name;
     String consumerId;
 
-    System.out.println("<<< Create a playlist >>>");
     System.out.println("Enter the name of the playlist.");
     name = reader.next();
     System.out.println("Enter the ID of the consumer user who will have the playlist.");
@@ -218,48 +231,100 @@ public class Main{
     String producerId;
     String playlistName;
     String consumerId;
-    int choice = 0;
+    System.out.println("What do you want to do? \n" + 
+    "(1) Add an audio to the playlist. \n" + 
+        "(2) Delete an audio from the playlist.");
 
-    System.out.println("<<< Edit a playlist >>>");
-    System.out.println("What type of audio do you want to add to the playlist?");
-    System.out.println(
-      "(1) Song. \n" + 
-      "(2) Podcast."
-    );
-    choice = reader.nextInt();
-    switch (choice) {
+    int option = 0;
+    option = reader.nextInt();
+    switch (option) {
       case 1:
-        System.out.println("<<< Add a song to a playlist >>>");
-        System.out.println("Enter the name of the song you want to add to the playlist.");
-        audioName = reader.next();
-        System.out.println("Enter the ID of the artist to which the song you want to add belongs.");
-        producerId = reader.next();
-        System.out.println("Enter the name of the playlist you want to edit.");
-        playlistName = reader.next();
-        System.out.println("Enter the ID of the consumer user to which the playlist belongs.");
-        consumerId = reader.next();
+      System.out.println("<<< Add audio to the playlist >>>");
+      System.out.println("Enter the name of the audio you want to add to the playlist.");
+      audioName = reader.next();
+      System.out.println("Enter the ID of the producer user to which the audio you want to add belongs.");
+      producerId = reader.next();
+      System.out.println("Enter the name of the playlist you want to edit.");
+      playlistName = reader.next();
+      System.out.println("Enter the ID of the consumer user to which the playlist belongs.");
+      consumerId = reader.next();
 
-        System.out.println(controllerNTAudios.editPlaylist(audioName, producerId, playlistName, consumerId, choice));
+      System.out.println(controllerNTAudios.addAudioToThePlaylist(audioName, producerId, playlistName, consumerId));
         break;
 
       case 2:
-        System.out.println("<<< Add a podcast to a playlist >>>");
-        System.out.println("Enter the name of the podcast you want to add to the playlist.");
+        System.out.println("<<< Delete audio from the playlist >>>");
+        System.out.println("Enter the name of the audio you want to remove from the playlist.");
         audioName = reader.next();
-        System.out.println("Enter the ID of the content creator to which the podcast you want to add belongs.");
+        System.out.println("Enter the ID of the producer user to which the audio you want to delete belongs.");
         producerId = reader.next();
         System.out.println("Enter the name of the playlist you want to edit.");
         playlistName = reader.next();
         System.out.println("Enter the ID of the consumer user to which the playlist belongs.");
         consumerId = reader.next();
 
-        System.out.println(controllerNTAudios.editPlaylist(audioName, producerId, playlistName, consumerId, choice));
+        System.out.println(controllerNTAudios.deleteAudioFromThePlaylist(audioName, producerId, playlistName, consumerId));
         break;
 
       default:
       System.out.println("Invalid option.");
         break;
     }
+  }
+
+  public void uiSharePlaylist() {
+    String consumerSharerId;
+    String playlistName;
+    long code;
+    String codeToString;
+    String consumerReceptorId;
+
+    System.out.println("Enter the ID of the consumer user who will share the playlist.");
+    consumerSharerId = reader.next();
+    System.out.println("Enter the name of the playlist to be shared.");
+    playlistName = reader.next();
+    System.out.println(controllerNTAudios.runMatrix(playlistName, consumerSharerId));
+    System.out.println("Enter the code of the playlist to be shared.");
+    code = reader.nextLong();
+    codeToString = Long.toString(code);
+    System.out.println("Enter the ID of the user who will receive the playlist.");
+    consumerReceptorId = reader.next();
+
+    System.out.println(controllerNTAudios.sharePlaylist(consumerSharerId, codeToString, consumerReceptorId));
+  }
+
+  public void uiSimulateThePlaybackOfAnAudio() {
+    String consumerId;
+    String audioName;
+    String playlistName;
+
+    System.out.println("Enter the ID of the consumer user who has the audio to be played.");
+    consumerId = reader.next();
+    System.out.println("Enter the name of the audio to be played.");
+    audioName = reader.next();
+    System.out.println("Enter the name of the playlist where the audio to be played is located.");
+    playlistName = reader.next();
+
+    System.out.println(controllerNTAudios.simulateThePlaybackOfAnAudio(consumerId, audioName, playlistName));
+  }
+
+  public void uiBuySong() {
+    String consumerId;
+    String namePlaylist;
+    String songName;
+    double saleValue;
+
+    System.out.println("Enter the ID of the user who wants to buy the song.");
+    consumerId = reader.next();
+    System.out.println("Enter the name of the playlist where the song to be purchased will be added.");
+    namePlaylist = reader.next();
+    System.out.println("Enter the name of the song to be purchased.");
+    songName = reader.next();
+    controllerNTAudios.showSong(songName);
+    System.out.println("Enter the money.");
+    saleValue = reader.nextDouble();
+
+    System.out.println(controllerNTAudios.buySong(consumerId, namePlaylist, songName, saleValue));
   }
 
   /**
@@ -275,9 +340,71 @@ public class Main{
     "(2) Register consumer users: Standard and Premium. \n" +
     "(3) Register audios: songs and podcasts. \n" +
     "(4) Create a playlist. \n" +
-    "(5) Edit a playlist.");
+    "(5) Edit a playlist. \n" + 
+    "(6) Share a playlist. \n" + 
+    "(7) Simulate the playback of a song or podcast. \n" + 
+    "(8) Buy a song. \n" + 
+    "(9) Generate reports with the registered data.");
     option = reader.nextInt();
     return option;
+  }
+  
+  public void generateReports() {
+    int option = 0;
+    System.out.println(
+    "(1) For audio types, report the total accumulated plays across the platform. \n" + 
+    "(2) Report the name and number of plays of the most played song genre for a user. \n" + 
+    "(3) Report the name and number of plays of the most played song genre for the platform. \n" + 
+    "(4) Report the name and number of plays of the most listened podcast category for a user. \n" + 
+    "(5) Report the name and number of plays of the most listened podcast category for the platform. \n" + 
+    "(6) Report the name and number of plays of the top 5 artists and top 5 content creators. \n" + 
+    "(7) Report the name, genre or category and total number of plays of the top 10 songs and top 10 podcasts. \n" + 
+    "(8) Report the number of songs sold and total sales value for each genre. \n" + 
+    "(9) Report the total number of sales and the total sales value of the best-selling song on the platform.");
+    
+    option = reader.nextInt();
+
+    switch (option) {
+      case 1:
+      System.out.println("<<< For audio types, report the total accumulated plays across the platform >>>");
+        break;
+
+      case 2:
+      System.out.println("<<< Report the name and number of plays of the most played song genre for a user >>>");
+        break;
+
+      case 3:
+      System.out.println("<<< Report the name and number of plays of the most played song genre for the platform >>>");
+        break;
+
+      case 4:
+      System.out.println("<<< Report the name and number of plays of the most listened podcast category for a user >>>");
+        break;
+
+      case 5:
+      System.out.println("<<< Report the name and number of plays of the most listened podcast category for the platform >>>");
+        break;
+        
+      case 6:
+      System.out.println("<<< Report the name and number of plays of the top 5 artists and top 5 content creators >>>");
+        break;
+
+      case 7:
+      System.out.println("<<< Report the name, genre or category and total number of plays of the top 10 songs and top 10 podcasts >>>");
+        break;
+
+      case 8:
+      System.out.println("<<< Report the number of songs sold and total sales value for each genre >>>");
+        break;
+
+      case 9:
+      System.out.println("<<< Report the total number of sales and the total sales value of the best-selling song on the platform >>>");
+        break;
+
+      default:
+      System.out.println("Invalid option.");
+        break;
+    }
   }
 
   /**
@@ -314,7 +441,27 @@ public class Main{
       case 5:
         System.out.println("<<< Edit a playlist >>>");
         uiEditPlaylist();
-				break; 
+        break;
+        
+      case 6:
+        System.out.println("<<< Share a playlist >>>");
+        uiSharePlaylist();
+        break;
+
+      case 7:
+        System.out.println("<<< Simulate the playback of a song or podcast >>>");
+        uiSimulateThePlaybackOfAnAudio();
+        break;
+
+      case 8:
+        System.out.println("<<< Buy a song >>>");
+        uiBuySong();
+        break;
+
+      case 9:
+        System.out.println("<<< Generate reports with the registered data >>>");
+        generateReports();
+        break;
 
 			default: 
 				System.out.println("Invalid Option.");
